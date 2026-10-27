@@ -1,0 +1,26 @@
+@define-color background #0A0A0B;
+@define-color surface    #111214;
+@define-color foreground #E6E8EB;
+
+@define-color muted      #A0A4AA;
+@define-color subtle     #686D74;
+
+@define-color accent     #D5D8DC;
+
+/* Bar hierarchy */
+@define-color bg-0       #0A0A0B;
+@define-color bg-1       #181A1D;
+@define-color bg-2       #1E2024;
+@define-color bg-3       #25282D;
+
+@define-color fg         @foreground;
+@define-color br         #858A91;
+@define-color shadow     #050506;
+
+/* States */
+@define-color warning    #C8B77A;
+@define-color critical   #C87575;
+@define-color charging   #91B391;
+
+@define-color hover-bg   #1B1D20;
+@define-color hover-fg   #F0F1F3;

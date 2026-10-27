@@ -1,0 +1,115 @@
+{
+  "layer": "top",
+  "position": "left",
+  "width": 64,
+  "spacing": 12,
+  "margin": "3 4 3 3",
+  "reload_style_on_change": true,
+
+  "modules-left": ["custom/launcher", "hyprland/workspaces"],
+
+  "modules-center": ["cpu", "memory", "temperature", "disk"],
+
+  "modules-right": [
+    "custom/spacer",
+    "custom/keyboard",
+    "custom/vpn",
+    "clock",
+    "custom/power",
+  ],
+
+  /* ========== LAUNCHER ========== */
+
+  "custom/launcher": {
+    "format": "󰣇",
+    "tooltip": "Rofi launcher",
+    "on-click": "pkill rofi || bash ~/.config/rofi/launcher/launcher.sh",
+  },
+
+  /* ========== WORKSPACES ========== */
+
+  "hyprland/workspaces": {
+    "format": "{icon}",
+    "on-click": "activate",
+    "on-scroll-up": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e+1\" })'",
+    "on-scroll-down": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e-1\" })'",
+    "cursor": true,
+    "active-only": false,
+    "all-outputs": true,
+
+    "persistent-workspaces": {
+      "*": 5,
+    },
+
+    "format-icons": {
+      "1": "カ",
+      "2": "海",
+      "3": "空",
+      "4": "月",
+      "5": "星",
+      "6": "風",
+      "7": "火",
+      "8": "水",
+      "9": "森",
+      "10": "雲",
+    },
+  },
+
+  /* ========== SYSTEM METRICS ========== */
+
+  "cpu": {
+    "interval": 5,
+    "format": "🖳 {usage}%",
+    "on-click": "kitty btop",
+  },
+
+  "memory": {
+    "interval": 5,
+    "format": "⚛ {percentage}%",
+    "on-click": "kitty nvtop",
+  },
+
+  "temperature": {
+    "interval": 5,
+    "format": "🌡️ {temperatureC}°C",
+    "exec-if": "which sensors",
+    "on-click": "psensor",
+  },
+
+  "disk": {
+    "interval": 30,
+    "format": "🖥 {percentage_used}%",
+    "on-click": "kitty ncdu",
+  },
+
+  /* ========== VPN MODULE ========== */
+
+  "custom/vpn": {
+    "exec": "~/.config/waybar/sidebar/vpn.sh",
+    "interval": 5,
+    "on-click": "~/.config/waybar/sidebar/vpn-toggle.sh",
+  },
+
+  /* ========== POWER ========== */
+
+  "custom/power": {
+    "format": "🔔",
+    "tooltip": "Power menu",
+    "on-click": "swaync-client -t",
+  },
+
+  /* ========== KEYBOARD TOGGLE ========== */
+
+  "custom/keyboard": {
+    "format": "⌨️",
+    "tooltip": "Toggle on-screen keyboard",
+    "on-click": "bash -c 'pgrep -x wvkbd-mobintl >/dev/null && pkill -x wvkbd-mobintl || wvkbd-mobintl &'",
+  },
+
+  /* ========== SPACER ========== */
+
+  "custom/spacer": {
+    "format": " ",
+    "tooltip": false,
+  },
+}

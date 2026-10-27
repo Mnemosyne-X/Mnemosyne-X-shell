@@ -1,0 +1,9 @@
+{
+	"custom/screentime": {
+		"exec": "~/.config/waybar/scripts/screentime",
+		"interval": 60,
+		"return-type": "json",
+		"format": "{}",
+		"tooltip": true
+	}
+}

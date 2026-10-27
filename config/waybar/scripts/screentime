@@ -1,0 +1,46 @@
+#!/bin/bash
+
+STATE_DIR="$HOME/.local/state/waybar"
+STATE_FILE="$STATE_DIR/screentime"
+
+mkdir -p "$STATE_DIR"
+
+TODAY=$(date +%F)
+NOW=$(date +%s)
+
+# Initialize state
+if [ ! -f "$STATE_FILE" ]; then
+	echo "$TODAY 0 $NOW" > "$STATE_FILE"
+fi
+
+read -r SAVED_DATE TOTAL LAST_TIME < "$STATE_FILE"
+
+# Reset at midnight
+if [ "$SAVED_DATE" != "$TODAY" ]; then
+	TOTAL=0
+	LAST_TIME=$NOW
+	SAVED_DATE="$TODAY"
+fi
+
+# Calculate elapsed time
+DELTA=$((NOW - LAST_TIME))
+
+# Only count normal update intervals.
+# Prevents suspend/long gaps from being counted.
+if [ "$DELTA" -ge 0 ] && [ "$DELTA" -lt 120 ]; then
+	TOTAL=$((TOTAL + DELTA))
+fi
+
+# Save state
+echo "$SAVED_DATE $TOTAL $NOW" > "$STATE_FILE"
+
+# Convert seconds → H:MM
+HOURS=$((TOTAL / 3600))
+MINUTES=$(((TOTAL % 3600) / 60))
+
+# Return valid Waybar JSON
+printf '{"text":"󰥔 %d:%02d","tooltip":"Screen time today: %d hours %02d minutes"}\n' \
+	"$HOURS" \
+	"$MINUTES" \
+	"$HOURS" \
+	"$MINUTES"

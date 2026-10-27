@@ -1,0 +1,6 @@
+@define-color bg        #0f0f10;
+@define-color panel     #141416;
+@define-color fg        #e6e6e6;
+@define-color muted     #8a8a8a;
+@define-color accent    #ffffff;
+@define-color border    rgba(255,255,255,0.06);

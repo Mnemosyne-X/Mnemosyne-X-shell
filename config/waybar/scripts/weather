@@ -1,0 +1,72 @@
+#!/bin/bash
+
+# ─────────────────────────────────────
+# Waybar Weather
+# Automatic location + dynamic icons
+# ─────────────────────────────────────
+
+set -u
+
+# Get approximate location from public IP.
+LOCATION=$(curl -fsS --max-time 5 "https://wttr.in/?format=%l" 2>/dev/null)
+
+if [ -z "$LOCATION" ]; then
+    echo '{"text":"󰖐 --","tooltip":"Location unavailable"}'
+    exit 0
+fi
+
+# Get weather condition + temperature.
+WEATHER=$(curl -fsS --max-time 10 \
+    "https://wttr.in/?format=%C+%t" 2>/dev/null)
+
+if [ -z "$WEATHER" ]; then
+    echo "{\"text\":\"󰖐 --\",\"tooltip\":\"Weather unavailable\\nLocation: $LOCATION\"}"
+    exit 0
+fi
+
+# Split condition and temperature.
+CONDITION=$(echo "$WEATHER" | sed 's/  */ /g' | sed 's/ [+-][0-9].*$//')
+TEMP=$(echo "$WEATHER" | grep -oE '[+-]?[0-9]+°C' | head -n1 | sed 's/^+//')
+# Normalize condition for matching.
+CONDITION_LOWER=$(echo "$CONDITION" | tr '[:upper:]' '[:lower:]')
+
+# Default icon.
+ICON="󰖐"
+
+case "$CONDITION_LOWER" in
+    *thunder*|*storm*)
+        ICON="󰖓"
+        ;;
+
+    *snow*|*sleet*|*blizzard*)
+        ICON="󰖘"
+        ;;
+
+    *heavy*rain*|*torrential*)
+        ICON="󰖗"
+        ;;
+
+    *rain*|*drizzle*|*shower*)
+        ICON="󰖖"
+        ;;
+
+    *fog*|*mist*|*haze*)
+        ICON="󰖑"
+        ;;
+
+    *overcast*|*cloudy*)
+        ICON="󰖐"
+        ;;
+
+    *partly*cloudy*|*mostly*cloudy*)
+        ICON="󰖕"
+        ;;
+
+    *clear*|*sunny*)
+        ICON="󰖙"
+        ;;
+esac
+
+# Waybar JSON.
+printf '{"text":"%s %s","tooltip":"%s\\n%s"}\n' \
+    "$ICON" "$TEMP" "$LOCATION" "$CONDITION"

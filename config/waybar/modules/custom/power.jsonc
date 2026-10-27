@@ -1,0 +1,7 @@
+{
+	"custom/power": {
+		"format": "󰤄",
+		"on-click": "~/.config/rofi/powerlauncher/powerlauncher.sh",
+		"tooltip-format": "Power Menu"
+	}
+}
