@@ -1,0 +1,14 @@
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+*.log
+*.tmp
+.cache/
+.env
+.env.*
+!.env.example
+*.bak
+*.backup
+*.old
